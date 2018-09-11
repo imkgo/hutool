@@ -5,7 +5,7 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>com.xiaoleilu</groupId>
+		<groupId>net.imkgo</groupId>
 		<artifactId>hutool-parent</artifactId>
 		<version>3.0.9</version>
 	</parent>
@@ -17,82 +17,82 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-aop</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-bloomFilter</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-cache</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-crypto</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-db</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-dfa</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-extra</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-http</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-log</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-script</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-setting</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-system</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-cron</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-geo</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.xiaoleilu</groupId>
+			<groupId>net.imkgo</groupId>
 			<artifactId>hutool-json</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>

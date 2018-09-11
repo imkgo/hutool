@@ -4,7 +4,7 @@
 
 	<packaging>pom</packaging>
 
-	<groupId>com.xiaoleilu</groupId>
+	<groupId>net.imkgo</groupId>
 	<artifactId>hutool-parent</artifactId>
 	<version>3.0.9</version>
 	<name>hutool</name>

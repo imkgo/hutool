@@ -31,13 +31,13 @@ import com.xiaoleilu.hutool.util.ThreadUtil;
 
 /**
  * http请求类<br>
- * Http请求类用于构建Http请求并同步获取结果，此类通过 {@link CookiePool}持有域名对应的Cookie值，再次请求时会自动附带Cookie信息
+ * Http请求类用于构建Http请求并同步获取结果，此类通过 {@link DefaultCookiePool}持有域名对应的Cookie值，再次请求时会自动附带Cookie信息
  * 
  * @author Looly
  */
 public class HttpRequest extends HttpBase<HttpRequest> {
 	private static final String BOUNDARY = "--------------------Hutool_" + RandomUtil.randomString(16);
-	private static final byte[] BOUNDARY_END = StrUtil.format("--{}--\r\n", BOUNDARY).getBytes();
+	private static final String BOUNDARY_END = StrUtil.format("--{}--\r\n", BOUNDARY);
 	private static final String CONTENT_DISPOSITION_TEMPLATE = "Content-Disposition: form-data; name=\"{}\"\r\n\r\n";
 	private static final String CONTENT_DISPOSITION_FILE_TEMPLATE = "Content-Disposition: form-data; name=\"{}\"; filename=\"{}\"\r\n";
 	
@@ -72,6 +72,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	/** SSLSocketFactory，用于HTTPS安全连接 */
 	private SSLSocketFactory ssf;
 
+	private CookiePool cookiePool;
 	/**
 	 * 构造
 	 * 
@@ -242,7 +243,12 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 		this.cookie = cookie;
 		return this;
 	}
-	
+
+	public HttpRequest cookiePool(CookiePool cookiePool) {
+		this.cookiePool = cookiePool;
+		return this;
+	}
+
 	/**
 	 * 禁用默认Cookie行为，此方法调用后会将Cookie置为空。<br>
 	 * 如果想重新启用Cookie，请调用：{@link #cookie(String)}方法自定义Cookie。<br>
@@ -544,6 +550,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 		//手动实现重定向
 		HttpResponse httpResponse = sendRedirectIfPosible();
 
+
 		// 获取响应
 		if(null == httpResponse){
 			httpResponse = new HttpResponse(this.httpConnection, this.charset, isAsync);
@@ -591,7 +598,11 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 		this.httpConnection = HttpConnection
 				.create(this.url, this.method, this.hostnameVerifier, this.ssf, this.timeout, this.proxy)
 				.header(this.headers, true); // 覆盖默认Header
-		
+
+		if (this.cookiePool != null) {
+			this.httpConnection.setCookiePool(cookiePool);
+		}
+
 		//自定义Cookie
 		if(null != this.cookie){
 			this.httpConnection.setCookie(this.cookie);
@@ -703,6 +714,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 		try {
 			writeFileForm(out);
 			writeForm(out);
+
 			formEnd(out);
 		} catch (IOException e) {
 			throw e;
@@ -725,6 +737,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 				builder.append(StrUtil.format(CONTENT_DISPOSITION_TEMPLATE, entry.getKey()));
 				builder.append(entry.getValue()).append(StrUtil.CRLF);
 			}
+
 			IoUtil.write(out, this.charset, false, builder);
 		}
 	}
@@ -754,7 +767,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	 * @throws IOException
 	 */
 	private void formEnd(OutputStream out) throws IOException {
-		out.write(BOUNDARY_END);
+		IoUtil.write(out, this.charset, false, BOUNDARY_END);
 		out.flush();
 	}
 	

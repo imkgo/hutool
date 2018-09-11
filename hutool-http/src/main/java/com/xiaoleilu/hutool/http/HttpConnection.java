@@ -45,6 +45,7 @@ public class HttpConnection {
 	private Proxy proxy;
 	private HttpURLConnection conn;
 
+	private CookiePool cookiePool = DefaultCookiePool.getInstance();
 	/**
 	 * 创建HttpConnection
 	 * 
@@ -185,7 +186,7 @@ public class HttpConnection {
 		header(Header.CONTENT_TYPE, "application/x-www-form-urlencoded", true);
 		header(Header.USER_AGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0 Hutool", true);
 		// Cookie
-		setCookie(CookiePool.get(this.url.getHost()));
+		setCookie(cookiePool.get(this.url.getHost()));
 
 		return this;
 	}
@@ -211,6 +212,10 @@ public class HttpConnection {
 		return this;
 	}
 
+	public void setCookiePool(CookiePool cookiePool) {
+		setCookie(cookiePool.get(this.url.getHost()));
+		this.cookiePool = cookiePool;
+	}
 	/**
 	 * 获取请求URL
 	 * 
@@ -303,6 +308,7 @@ public class HttpConnection {
 	 * @return Http请求头值
 	 */
 	public String header(String name) {
+
 		return this.conn.getHeaderField(name);
 	}
 
@@ -579,10 +585,19 @@ public class HttpConnection {
 	 * 存储服务器返回的Cookie到本地
 	 */
 	private void storeCookie() {
-		final String setCookie = header(Header.SET_COOKIE);
-		if (StrUtil.isBlank(setCookie) == false) {
+		Map<String, List<String>> map = this.conn.getHeaderFields();
+		List<String> list = map.get("Set-Cookie");
+		StringBuilder sb = new StringBuilder();
+		if (list != null) {
+			for (String s : list) {
+				sb.append(s).append(";");
+			}
+
+		}
+		String setCookie = sb.toString();
+		if (!StrUtil.isBlank(setCookie)) {
 			log.debug("Set cookie: [{}]", setCookie);
-			CookiePool.put(url.getHost(), setCookie);
+			cookiePool.put(url.getHost(), setCookie);
 		}
 	}
 	// --------------------------------------------------------------- Private Method end
